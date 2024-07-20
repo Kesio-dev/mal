@@ -65,3 +65,5 @@ func Error(text string) {
 func Debug(text string) {
 	log(debugLevel, text)
 }
+
+// :)
