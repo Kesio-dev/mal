@@ -31,39 +31,39 @@ var (
 	debugLevel = logLevel{prefix: "[DEBUG]", color: debugColor}
 )
 
-func (l *Logger) log(level logLevel, file string, line int, args ...interface{}) {
+func (l *Logger) log(level logLevel, file string, line int, v ...any) {
 	filePath := strings.Split(file, "/")
 	fileName := fmt.Sprintf("%s/%s:%d", filePath[len(filePath)-2], filePath[len(filePath)-1], line)
 	link := fmt.Sprintf("file://%s:%d", file, line)
 	linkText := fileName
 	ansiLink := fmt.Sprintf("\033]8;;%s\033\\%s\033]8;;\033\\", link, linkText)
 
-	fmt.Printf("%s %s %s\n", level.color(level.prefix), ansiLink, args)
+	fmt.Printf("%s %s %s\n", level.color(level.prefix), ansiLink, v)
 }
 
-func log(level logLevel, args ...interface{}) {
+func log(level logLevel, v ...any) {
 	_, file, line, ok := runtime.Caller(2)
 	if !ok {
 		file = "unknown"
 		line = 0
 	}
-	logger.log(level, file, line, args)
+	logger.log(level, file, line, v)
 }
 
-func Info(args ...interface{}) {
-	log(infoLevel, args)
+func Info(v ...any) {
+	log(infoLevel, v)
 }
 
-func Warn(args ...interface{}) {
-	log(warnLevel, args)
+func Warn(v ...any) {
+	log(warnLevel, v)
 }
 
-func Error(args ...interface{}) {
-	log(errorLevel, args)
+func Error(v ...any) {
+	log(errorLevel, v)
 }
 
-func Debug(args ...interface{}) {
-	log(debugLevel, args)
+func Debug(v ...any) {
+	log(debugLevel, v)
 }
 
 // :)
