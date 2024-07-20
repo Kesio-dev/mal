@@ -37,8 +37,8 @@ func (l *Logger) log(level logLevel, file string, line int, v ...any) {
 	link := fmt.Sprintf("file://%s:%d", file, line)
 	linkText := fileName
 	ansiLink := fmt.Sprintf("\033]8;;%s\033\\%s\033]8;;\033\\", link, linkText)
-
-	fmt.Printf("%s %s %s\n", level.color(level.prefix), ansiLink, v)
+	msg := fmt.Sprint(v...)
+	fmt.Printf("%s %s %s\n", level.color(level.prefix), ansiLink, msg)
 }
 
 func log(level logLevel, v ...any) {
@@ -47,23 +47,23 @@ func log(level logLevel, v ...any) {
 		file = "unknown"
 		line = 0
 	}
-	logger.log(level, file, line, v)
+	logger.log(level, file, line, v...)
 }
 
 func Info(v ...any) {
-	log(infoLevel, v)
+	log(infoLevel, v...)
 }
 
 func Warn(v ...any) {
-	log(warnLevel, v)
+	log(warnLevel, v...)
 }
 
 func Error(v ...any) {
-	log(errorLevel, v)
+	log(errorLevel, v...)
 }
 
 func Debug(v ...any) {
-	log(debugLevel, v)
+	log(debugLevel, v...)
 }
 
 // :)
